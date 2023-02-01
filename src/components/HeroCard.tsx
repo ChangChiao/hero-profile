@@ -1,9 +1,19 @@
-import React from 'react'
+import React from "react";
 import { Link } from "react-router-dom";
-const HeroCard = () => {
-  return (
-    <div>HeroCard</div>
-  )
-}
+import styled from "@emotion/styled";
+import { Hero } from "../types/hero";
 
-export default HeroCard
+const HeroCard = ({ name, image }: Hero) => {
+  const Card = styled.div`
+    width: 23%;
+    text-align: center;
+  `;
+  return (
+    <Card>
+      <img src={image} alt="" />
+      <h3>{name}</h3>
+    </Card>
+  );
+};
+
+export default HeroCard;
