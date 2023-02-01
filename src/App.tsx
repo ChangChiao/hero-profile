@@ -8,8 +8,7 @@ function App() {
     <HashRouter>
       <Routes>
           <Route path="/" element={<Navigate to="/heroes" />} />
-          <Route index path="/heroes" element={<Heroes />} />
-          <Route path="/heroes/:heroId" element={<Heroes />} />
+          <Route path="/heroes/:heroId?" element={<Heroes />} />
       </Routes>
   </HashRouter>
   )
