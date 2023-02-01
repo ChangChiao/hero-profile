@@ -1,15 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
-
+import { Ability } from "../types/ability";
 type AbilityItemProps = {
-  name: string;
+  name: keyof Ability;
   value: number;
+  handlePoint: (key: keyof Ability, type: string) => void;
 };
 
-const HeroAbilityItem = ({ name, value }: AbilityItemProps) => {
+const HeroAbilityItem = ({ name, value, handlePoint }: AbilityItemProps) => {
   const AbilityItem = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 10px 0;
   `;
 
@@ -20,9 +22,9 @@ const HeroAbilityItem = ({ name, value }: AbilityItemProps) => {
   return (
     <AbilityItem>
       <span>{name}</span>
-      <AbilityBtn>+</AbilityBtn>
+      <AbilityBtn onClick={() => handlePoint(name, 'plus')}>+</AbilityBtn>
       <span>{value}</span>
-      <AbilityBtn>-</AbilityBtn>
+      <AbilityBtn onClick={() => handlePoint(name, 'minus')}>-</AbilityBtn>
     </AbilityItem>
   );
 };

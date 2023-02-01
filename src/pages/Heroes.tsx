@@ -31,7 +31,7 @@ export const Heroes = () => {
   return (
     <div>
       <HeroList heroList={heroList} />
-      {/* {heroId && <HeroAbility />} */}
+      {heroId && <HeroAbility />}
     </div>
   );
 };

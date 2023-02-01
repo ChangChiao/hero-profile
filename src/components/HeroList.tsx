@@ -12,6 +12,9 @@ const HeroList = ({ heroList }: HeroListProps) => {
   const List = styled.div`
     display: flex;
     justify-content: space-between;
+    padding: 10px;
+    background: rgba(0, 0, 0, .3);
+    margin-bottom: 10px;
     @media (max-width: 768px) {
       flex-direction: column;
     }
