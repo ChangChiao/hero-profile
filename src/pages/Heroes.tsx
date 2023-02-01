@@ -5,9 +5,9 @@ import { useParams } from "react-router-dom";
 import { Ability } from "../types/ability";
 import HeroList from "../components/HeroList";
 import HeroAbility from "../components/HeroAbility";
+import { catchError } from "../utils/catchError";
+
 export const Heroes = () => {
-  console.log("render==");
-  
   const { heroId } = useParams();
   const [heroList, setHeroList] = useState<Hero[]>([]);
 
@@ -23,8 +23,7 @@ export const Heroes = () => {
   };
 
   useEffect(() => {
-    queryListData();
-
+    catchError(queryListData);
     console.log("mounted");
   }, []);
 

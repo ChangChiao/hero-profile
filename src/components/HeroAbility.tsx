@@ -4,7 +4,7 @@ import HeroAbilityItem from "./HeroAbilityItem";
 import { useParams } from "react-router-dom";
 import { Ability } from "../types/ability";
 import service from "../utils/api";
-
+import { catchError } from "../utils/catchError";
 const AbilityWrapper = styled.div`
   padding: 20px 14px;
   padding-top: 30px;
@@ -43,9 +43,6 @@ const HeroAbility = () => {
       return prev + cur;
     }, 0);
   };
-  const totalPoint = useMemo(() => {
-    return calcPoint(heroAbility);
-  }, [heroAbility]);
 
   const handlePoint = useCallback(
     (key: keyof Ability, type: string) => {
@@ -73,30 +70,21 @@ const HeroAbility = () => {
     [remainPoint, heroAbility]
   );
 
-  const updatePoint = async() => {
-    try {
-        
-    } catch (error) {
-        
-    }
-  }
+  const updatePoint = async () => {};
 
   const queryAbility = async () => {
-    try {
-      const result = await service.get<any, Ability>(
-        `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
-      );
-      console.log("result===", result);
-      setHeroAbility(result);
-      const apiPoint = calcPoint(result);
-      setInitPoint(apiPoint);
-    } catch (error) {
-      console.log("error", error);
-    }
+    const result = await service.get<any, Ability>(
+      `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
+    );
+    console.log("result===", result);
+    setHeroAbility(result);
+    const apiPoint = calcPoint(result);
+    setInitPoint(apiPoint);
   };
 
   useEffect(() => {
-    queryAbility();
+    catchError(queryAbility)
+    setRemainPoint(0);
     console.log("id", heroId);
   }, [heroId]);
 
