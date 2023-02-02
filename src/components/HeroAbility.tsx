@@ -44,7 +44,7 @@ type HeroAbilityProps = {
   setHeroAbility: (param: any) => void;
   queryAbility: () => void;
   remainPoint: number;
-  setRemainPoint: (point: number) => void;
+  setRemainPoint: (point: any) => void;
 };
 
 const HeroAbility = ({
@@ -55,7 +55,6 @@ const HeroAbility = ({
   setRemainPoint
 }: HeroAbilityProps) => {
   const { heroId } = useParams();
-//   const [remainPoint, setRemainPoint] = useState(0);
   const { setLoading } = useLoadingContext();
 
   const handlePoint = useCallback(
@@ -64,18 +63,15 @@ const HeroAbility = ({
         if (heroAbility[key] <= 0) {
           alert("能力值不得低於0");
           return;
-        }
-        console.log(11111);
-        
-        setRemainPoint(remainPoint + 1);
+        }        
+        setRemainPoint((prev: number) => prev + 1);
       }
       if (type === "plus") {
         if (remainPoint === 0) {
           alert("點數已經用完囉！");
           return;
         }
-        console.log(22222);
-        setRemainPoint(remainPoint - 1);
+        setRemainPoint((prev: number) => prev - 1);
       }
 
       setHeroAbility((prev: Ability) => {
@@ -100,13 +96,11 @@ const HeroAbility = ({
         ...heroAbility,
       }
     );
+    alert("儲存成功！")
     setLoading(false);
     catchError(queryAbility);
   };
 
-  useEffect(() => {
-    // setRemainPoint(0);
-  }, [heroId]);
 
   useEffect(() => {
     console.log('remainPoint', remainPoint)

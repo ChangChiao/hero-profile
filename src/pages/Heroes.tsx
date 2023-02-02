@@ -47,8 +47,11 @@ export const Heroes = () => {
   }, []);
 
   useEffect(() => {
-    catchError(queryAbility);
-    console.log("id", heroId);
+    if(heroId){
+      catchError(queryAbility);
+      console.log("id", heroId);
+      setRemainPoint(0);
+    }
   }, [heroId]);
 
   return (
