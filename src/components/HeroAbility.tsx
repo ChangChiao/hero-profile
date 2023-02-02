@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, memo, useCallback } from "react";
 import styled from "@emotion/styled";
 import HeroAbilityItem from "./HeroAbilityItem";
 import { useParams } from "react-router-dom";
-import { Ability } from "../types/ability";
+
 import service from "../utils/api";
 import { catchError } from "../utils/catchError";
+import { useLoadingContext } from "../contexts/useLoadingContext";
+import { Ability } from "../types/ability";
 const AbilityWrapper = styled.div`
   padding: 20px 14px;
   padding-top: 30px;
@@ -37,15 +39,20 @@ const AbilitySave = styled.div`
   }
 `;
 
-const HeroAbility = () => {
+type HeroAbilityProps = {
+  heroAbility: Ability;
+  setHeroAbility: (param: any) => void;
+  queryAbility: () => void;
+};
+
+const HeroAbility = ({
+  heroAbility,
+  setHeroAbility,
+  queryAbility,
+}: HeroAbilityProps) => {
   const { heroId } = useParams();
   const [remainPoint, setRemainPoint] = useState(0);
-  const [heroAbility, setHeroAbility] = useState<Ability>({
-    str: 0,
-    int: 0,
-    agi: 0,
-    luk: 0,
-  });
+  const { setLoading } = useLoadingContext();
 
   const handlePoint = useCallback(
     (key: keyof Ability, type: string) => {
@@ -63,7 +70,8 @@ const HeroAbility = () => {
         }
         setRemainPoint((prev) => prev - 1);
       }
-      setHeroAbility((prev) => {
+
+      setHeroAbility((prev: Ability) => {
         return {
           ...prev,
           [key]: type === "plus" ? prev[key]++ : prev[key]--,
@@ -74,30 +82,23 @@ const HeroAbility = () => {
   );
 
   const updatePoint = async () => {
-    if(remainPoint !== 0) {
-       alert("點數還沒用完喔！")
-       return;
+    if (remainPoint !== 0) {
+      alert("點數還沒用完喔！");
+      return;
     }
+    setLoading(true)
     await service.patch<Ability, any>(
       `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`,
       {
         ...heroAbility,
       }
     );
+    setLoading(false);
     catchError(queryAbility);
-  };
-
-  const queryAbility = async () => {
-    const result = await service.get<any, Ability>(
-      `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
-    );
-    setHeroAbility(result);
   };
 
   useEffect(() => {
-    catchError(queryAbility);
     setRemainPoint(0);
-    console.log("id", heroId);
   }, [heroId]);
 
   return (
@@ -127,4 +128,4 @@ const HeroAbility = () => {
   );
 };
 
-export default HeroAbility;
+export default memo(HeroAbility);

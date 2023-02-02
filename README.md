@@ -19,7 +19,7 @@
 ```
 
  src
-    | --- components (頁面子元件)
+    | --- components (頁面子元件和共用元件)
     | --- pages      (頁面元件)
     | --- type       (資料型別)
     | --- utils      (共用函式及api函式)
