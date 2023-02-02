@@ -20,7 +20,6 @@ const HeroCard = ({ name, image, id }: Hero) => {
     }
     img {
         width: 98%;
-        min-width: 187px;
     }
   `;
   const handleClick = (id: string) => {

@@ -11,10 +11,16 @@ const AbilityWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   background: rgba(0, 0, 0, 0.5);
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const AbilityList = styled.div`
   width: 50%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const AbilitySave = styled.div`
@@ -22,6 +28,10 @@ const AbilitySave = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   width: 30%;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding-top: 20px;
+  }
   .save-btn {
     margin-top: 10px;
   }
