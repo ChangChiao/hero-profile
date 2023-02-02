@@ -29,7 +29,6 @@ const AbilitySave = styled.div`
 
 const HeroAbility = () => {
   const { heroId } = useParams();
-  const [initPoint, setInitPoint] = useState(0);
   const [remainPoint, setRemainPoint] = useState(0);
   const [heroAbility, setHeroAbility] = useState<Ability>({
     str: 0,
@@ -37,12 +36,6 @@ const HeroAbility = () => {
     agi: 0,
     luk: 0,
   });
-
-  const calcPoint = (obj: Ability) => {
-    return Object.values(obj).reduce((prev, cur) => {
-      return prev + cur;
-    }, 0);
-  };
 
   const handlePoint = useCallback(
     (key: keyof Ability, type: string) => {
@@ -70,20 +63,29 @@ const HeroAbility = () => {
     [remainPoint, heroAbility]
   );
 
-  const updatePoint = async () => {};
+  const updatePoint = async () => {
+    if(remainPoint !== 0) {
+       alert("點數還沒用完喔！")
+       return;
+    }
+    await service.patch<Ability, any>(
+      `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`,
+      {
+        ...heroAbility,
+      }
+    );
+    catchError(queryAbility);
+  };
 
   const queryAbility = async () => {
     const result = await service.get<any, Ability>(
       `https://hahow-recruit.herokuapp.com/heroes/${heroId}/profile`
     );
-    console.log("result===", result);
     setHeroAbility(result);
-    const apiPoint = calcPoint(result);
-    setInitPoint(apiPoint);
   };
 
   useEffect(() => {
-    catchError(queryAbility)
+    catchError(queryAbility);
     setRemainPoint(0);
     console.log("id", heroId);
   }, [heroId]);
@@ -107,7 +109,9 @@ const HeroAbility = () => {
           剩餘點數：
           <span>{remainPoint}</span>
         </div>
-        <button className="save-btn">儲存</button>
+        <button className="save-btn" onClick={updatePoint}>
+          儲存
+        </button>
       </AbilitySave>
     </AbilityWrapper>
   );

@@ -7,8 +7,6 @@ type HeroListProps = {
 };
 
 const HeroList = ({ heroList }: HeroListProps) => {
-  console.log("HeroList-render");
-
   const List = styled.div`
     display: flex;
     justify-content: space-between;
@@ -20,9 +18,6 @@ const HeroList = ({ heroList }: HeroListProps) => {
     }
   `;
 
-  useEffect(() => {
-    console.log("HeroList-mounted");
-  }, []);
 
   if (heroList.length === 0) {
     return <div>暫無資料</div>;

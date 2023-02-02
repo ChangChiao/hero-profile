@@ -12,19 +12,14 @@ export const Heroes = () => {
   const [heroList, setHeroList] = useState<Hero[]>([]);
 
   const queryListData = async () => {
-    try {
-      const result = await service.get<any, Hero[]>(
-        "https://hahow-recruit.herokuapp.com/heroes"
-      );
-      setHeroList(result);
-    } catch (error) {
-      console.log("error", error);
-    }
+    const result = await service.get<any, Hero[]>(
+      "https://hahow-recruit.herokuapp.com/heroes"
+    );
+    setHeroList(result);
   };
 
   useEffect(() => {
     catchError(queryListData);
-    console.log("mounted");
   }, []);
 
   return (
