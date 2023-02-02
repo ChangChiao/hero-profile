@@ -12,6 +12,7 @@ import Loading from "../components/Loading";
 export const Heroes = () => {
   const { isShowLoading, setLoading } = useLoadingContext();
   const { heroId } = useParams();
+  const [remainPoint, setRemainPoint] = useState(0);
   const [heroList, setHeroList] = useState<Hero[]>([]);
   const [heroAbility, setHeroAbility] = useState<Ability>({
     str: 0,
@@ -59,6 +60,8 @@ export const Heroes = () => {
             heroAbility={heroAbility}
             setHeroAbility={setHeroAbility}
             queryAbility={queryAbility}
+            remainPoint={remainPoint}
+            setRemainPoint={setRemainPoint}
           />
         )}
       </HeroAbilityBox>
